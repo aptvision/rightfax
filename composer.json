@@ -6,6 +6,11 @@
         "php": "^7.0",
         "guzzlehttp/guzzle": "^6.0 || ^7.0"
     },
+    "autoload": {
+        "psr-4": {
+            "Aptvision\\Rightfax\\": "src/Aptvision/Rightfax/"
+        }
+    },
     "license": "MIT",
     "authors": [
         {
