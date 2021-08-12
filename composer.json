@@ -1,0 +1,17 @@
+{
+    "name": "aptvision/rightfax",
+    "description": "This library allows you to easily send faxes through a rightfax server API",
+    "type": "library",
+    "require": {
+        "php": "^7.0",
+        "guzzlehttp/guzzle": "^7.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Emmet O'Grady",
+            "email": "emmet789@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+}
