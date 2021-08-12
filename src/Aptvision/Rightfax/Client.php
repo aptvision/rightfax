@@ -44,8 +44,9 @@ class Client
                 'auth' => [$this->username, $this->password],
                 'multipart' => [
                     [
-                        'name' => 'FileContents',
+                        'name' => 'fax_contents',
                         'contents' => $stream,
+                        'filename' => 'fax_contents',
                     ],
                 ],
             ]
@@ -86,9 +87,7 @@ class Client
 
         foreach($attachments as $attachment)
         {
-            $json['AttachmentUrls'][] = [
-                $this->rightfaxApiRootUri . '/Attachments/' . $attachment->getAttachmentId(),
-            ];
+            $json['AttachmentUrls'][] = 'http://rightfax-ie.affidea.com/Rightfax/API/Attachments/' . $attachment->getAttachmentId();
         }
 
         $response = $this->guzzle->post(
@@ -99,8 +98,15 @@ class Client
             ]
         );
 
-        $responseJson = json_decode($response->getBody()->getContents());
+        foreach($response->getHeader('Location') as $location)
+        {
+            $attachmentId = explode('/', $location);
 
-        return new SendJob($responseJson['Id']);
+            return new SendJob(array_pop($attachmentId));
+        }
+
+        throw new \Exception(
+            'Unexpected error: rightfax api did not return a Location header in response to posting sendjob'
+        );
     }
 }
